@@ -2,8 +2,7 @@ import scrapy
 from datetime import datetime as dt
 from scrapy.crawler import CrawlerProcess
 from scrapy_splash import SplashRequest
-# from PoeNinja.db_connector import DBConnector
-from pymongo import MongoClient
+
 
 
 class PoeNinja(scrapy.Spider):
@@ -11,24 +10,29 @@ class PoeNinja(scrapy.Spider):
 
     def start_requests(self):
         url = "https://poe.ninja/challenge/currency/divine-orb"
-        yield SplashRequest(url, callback=self.parse, endpoint="render.html", args={"wait": 0.5})
+        yield SplashRequest(url, callback=self.parse, endpoint="render.html", args={"wait": 3})
 
-    def parse(self, response, **kwargs):
-        for orb_selector in response.xpath(
-                "//div[@style='display: grid; grid-gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(35ch, 100%), 1fr));']/div[1]"):
-            data = {"transaction_type": orb_selector.xpath(".//h2/text()").get(),
-                    "symbols": orb_selector.xpath(".//span[@data-variant='subdued']/text()").get(),
-                    "symbol_values": orb_selector.xpath(".//div[@class='justify-center']/span/text()").get(),
-                    "date": dt.today().strftime("%y-%m-%d"), "time": dt.today().strftime("%H:%M:%S")}
+    # def parse(self, response, **kwargs):
+    #     # for orb_selector in response.xpath("//div/div[2]/div[1]"):
+    #     # for orb in response.css("div:nth-child(2) > div.layout-stack"):
+    #         return {"transaction_type": response.css("div div h2::text").get(),
+    #                "symbols": response.css("div div span span::text").get(),
+    #                "symbol_values": response.css("div div span div span::text").get(),
+    #                "date": dt.today().strftime("%y-%m-%d"), "time": dt.today().strftime("%H:%M:%S")}
+    def parse(self, response):
+        divcss = response.css("div:nth-child(2) > div.layout-stack").extract()
+        divs = response.xpath('//div/div/h2/text()').extract()
+        print("\n\nThese are the div tags:\n=======================",divcss)
+        for div in divs:
+            yield {
+                'data': div.strip()
+            }
 
-            db = MongoClient("mongodb://localhost:27017/") #("mongodb://localhost:27017/", "poe_ninja", "divine_orb")
-            collection = db["POE_ninja1"]["DIvine_ORB"]
-            collection.insert_one(data)
-
-
-            yield data
-
-
+        spans = response.xpath('//div/div/span/text()').extract()
+        for span in spans:
+            yield {
+                'data': span.strip()
+            }
 # process = CrawlerProcess()
 # process.crawl(PoeNinja)
 # process.start()
