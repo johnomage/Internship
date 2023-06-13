@@ -46,8 +46,8 @@ class Scraper:
         try:
             # Iterate over the rows and insert documents into the collection
             for index, row in symbol_history.iterrows():
-                document = row.to_dict()
-                document["_id"] = str(index)
+                document = row.to_dict() # convert each dataframe row to a dictionary.
+                document["_id"] = str(index) # use datetime object as the MongoDB _id
                 self.collection.insert_one(document)
 
             print(f"{self.collection.count_documents({})} documents cached in {self.symbol} cache ")
