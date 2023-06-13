@@ -47,8 +47,8 @@ class Scraper:
         transactions = []
         for h in self.get_div_tag():
             if h is None:
-                print('\033[91m' + "None found in 'get_transaction_types' method..." + '\033[37m')
-                break
+                print('\033[91m' + "None found in 'get_transaction_types' method. Retrying..." + '\033[37m')
+                self.get_transaction_types()
             else:
                 trx = h.find_all("h2")
                 for buy_sell in trx:
@@ -63,8 +63,8 @@ class Scraper:
         symbols = []
         for s in self.get_div_tag():
             if s is None:
-                print('\033[91m' + "None found in 'get_symbols' method..." + '\033[37m')
-                break
+                print('\033[91m' + "None found in 'get_symbols' method. Retrying..." + '\033[37m')
+                self.get_symbols()
             else:
                 span = s.find_all("span", {"data-variant": "subdued"})
                 for symbol in span:
@@ -79,8 +79,8 @@ class Scraper:
         values = []
         for d in self.get_div_tag():
             if d is None:
-                print('\033[91m' + "None found in 'get_symbol_values' method..." + '\033[37m')
-                break
+                print('\033[91m' + "None found in 'get_symbol_values' method. Retrying..." + '\033[37m')
+                self.get_symbol_values()
             else:
                 inner_div = d.find_all("div", class_="justify-center")
                 for id in inner_div:
@@ -129,18 +129,11 @@ scraper = Scraper(divine_url)
 
 
 # retries if None is returned in any of the methods
-attempt = 0
-while attempt < 3:
-    price_dict = scraper.to_dict()
-    if price_dict:
-        scraper.save_to_db(price_dict)
-        now = datetime.now().strftime("%H:%M:%S")
-        time.sleep(1)
-        print(
-            "\033[32m" + f"{divine_url} successfully scraped.\nData stored in database time: {now}" + "\033[37m")  # print in green reset to white.
-        break
-    else:
-        print('\033[91m' + f"Failed to cache data: 'scraper.to_dict()' returned an empty dictionary. Attempt {attempt+1}\
-              \n----------------------------------------------" + "\033[37m")  # print in red and reset to white
-        attempt += 1
-        time.sleep(1)
+price_dict = scraper.to_dict()
+if price_dict:
+    scraper.save_to_db(price_dict)
+    now = datetime.now().strftime("%H:%M:%S")
+    time.sleep(1)
+    print(
+        "\033[32m" + f"{divine_url} successfully scraped.\nData stored in database time: {now}" + "\033[37m")  # print in green reset to white.
+

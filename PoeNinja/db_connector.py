@@ -1,3 +1,5 @@
+import datetime
+
 import pymongo
 
 
@@ -12,3 +14,5 @@ class DBConnector:
         db = client[self.db_name]
         collection = db[self.collection_name]
         return collection
+
+

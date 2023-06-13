@@ -1,11 +1,17 @@
+import datetime
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from time import sleep
+from datetime import datetime as dt
 from pymongo import MongoClient
 
+client = MongoClient("mongodb://localhost:27017/")
+db = client["poe_ninja"]
+collection = db["divine_orb1"]
 
-def scrape():
+def scrape(url):
     # Create driver
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
@@ -56,6 +62,8 @@ def scrape():
         divine_orb_data["transaction_types"] = transaction_types
         divine_orb_data["symbol"] = symbols
         divine_orb_data["symbol_values"] = symbol_values
+        divine_orb_data["date"] = dt.now().strftime("%Y-%m-%d")
+        divine_orb_data["time"] = dt.now().strftime("%H:%M:%S")
         sleep(1)
         break
 
@@ -63,17 +71,15 @@ def scrape():
     driver.quit()
     return divine_orb_data
 
-def scrape_and_save(url):
-    client = MongoClient("mongodb://localhost:27017/")
-    db = client["poe_ninja"]
-    collection = db["divine_orb1"]
+def cache(url):
     while True:
-        data = scrape()
-        if len(data["transaction_types"]) == 0:
+        data = scrape(url)
+        if data["transaction_types"] is None:
             print("Retrying++++++++++++++++++++++++++")
             continue
         collection.insert_one(data)
-        print("\033[32m" + f"{url} successfully scraped.\nData cached in database:" + "\033[37m")
+        print("\033[32m" + f"{url} successfully scraped.\nData cached in database."
+                           f" Collections: {collection.count_documents({})}" + "\033[37m")
         break
 
-scrape_and_save("https://poe.ninja/challenge/currency/divine-orb")
+cache("https://poe.ninja/challenge/currency/divine-orb")
