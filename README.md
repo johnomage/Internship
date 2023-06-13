@@ -3,7 +3,7 @@
 Title: Text Data Scraping for Machine Learning-Based Price Predictions
 
 Description:
-This project focuses on scraping text-based data from various sources to build machine learning models for price predictions. The goal is to gather relevant textual information that can potentially impact the price of a particular asset, such as stocks, cryptocurrencies, or commodities, and use this data to train predictive models.
+This project focuses on scraping price-based data from various sources to build machine learning models for price predictions. The goal is to gather relevant textual information that can potentially impact the price of a particular asset, such as stocks, cryptocurrencies, or commodities, and use this data to train predictive models.
 
 Key Steps:
 
