@@ -14,12 +14,12 @@ collection = db["divine_orb1"]
 def scrape(url):
     # Create driver
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--headless") # run driver without launching Chrome browser.
     driver = webdriver.Chrome(options=options)
 
     # Get website
     url = "https://poe.ninja/challenge/currency/divine-orb"
-    driver.get(url)
+    driver.get(url) # get response from url
 
     # Fetch the root elements
     elements = driver.find_elements(By.XPATH, "//section/div/div/div[2]/div[1]")
