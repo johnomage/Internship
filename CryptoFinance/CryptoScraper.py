@@ -4,7 +4,7 @@ import pandas as pd
 import yfinance as yf
 from pymongo.errors import DuplicateKeyError
 
-from CrytoDatabaseConnector import DBConnector
+from CryptoFinance.CryptoDatabaseConnector import DBConnector
 
 base_currency = "GBP"
 db_connector = DBConnector("mongodb://localhost:27017", "CryptoCache")
@@ -27,7 +27,7 @@ class Scraper:
             collection (pymongo.collection.Collection): The MongoDB collection for caching the scraped data.
 
         """
-    def __init__(self, symbol, period: str = "1m", interval: str = "1h") -> None:
+    def __init__(self, symbol, period: str, interval: str = "1h") -> None:
         self.symbol = symbol
         self.quote = "-".join([symbol, base_currency])
         self.period = period
@@ -35,6 +35,7 @@ class Scraper:
         self.collection = db_connector.create_collection(self.symbol)
 
     def cache_currency(self):
+        print("Connection to cache established.")
         """
           Cache the currency data by scraping it from a financial data source and storing it in the MongoDB collection.
 
@@ -53,8 +54,9 @@ class Scraper:
             print(f"{self.collection.count_documents({})} documents cached in {self.symbol} cache ")
 
         except DuplicateKeyError:
-            print(f"Duplicate documents found in {self.symbol} cache. Resetting collection...")
+            print(f"Duplicate documents found in {self.symbol} cache.")
             sleep(.5)
+            print("Resetting collection...")
             self.__reset_collection()
 
         # Remove duplicates for the currency cache
@@ -62,6 +64,7 @@ class Scraper:
     def __reset_collection(self, show_duplicates=False):
         sleep(.5)
         self.collection.delete_many({})
+        print("Reset done!")
         print("Caching new documents...")
         self.cache_currency()
 
