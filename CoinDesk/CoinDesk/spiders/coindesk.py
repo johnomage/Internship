@@ -50,38 +50,6 @@ if __name__ == '__main__':
 # span_texts = [span.text for span in driver.find_elements(By.XPATH, '//span[@class="content-text"]')]
 # datetimes = [datetime.text for datetime in driver.find_elements(By.XPATH,
 #                                                                 '//div[@class="timing-data"]')]
-# import tensorflow as tf
-# from tensorflow import keras
-# from keras import layers, Sequential
-# from keras.layers import Dense, LSTM, MultiHeadAttention, Dropout, LeakyReLU
-# from keras.callbacks import EarlyStopping
-# from keras.activations import relu,sigmoid, leaky_relu
-# from keras.callbacks import EarlyStopping
-#
-# model = Sequential()
-# from sklearn.metrics import mean_absolute_error
-# from keras.losses import MeanSquaredError
-# from keras.metrics import MeanAbsoluteError
-# from keras.optimizers.legacy import adam
-#
-# early_stopping = EarlyStopping(monitor='val_loss', patience=3, mode='min')
-#
-#
-# model.fit_generator()
-# import warnings
-# warnings.si
-# from keras.preprocessing.sequence import TimeseriesGenerator
-#
-# # TimeseriesGenerator(data, target, length, batch_size)
-# import numpy as np
-#
-# check = pd.DataFrame(np.random.randint(10, 100, (10, 3)), columns=['a', 'b', 'c'])
-#
-# model = Sequential()
-#
-# model.add(LSTM(units=128, input_shape=(23,3), activation=relu))
-# model.add(LeakyReLU(alpha=0.3))
-# model.add(Dropout(rate=0.2))
 
 
 
