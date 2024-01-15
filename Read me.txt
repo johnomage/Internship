@@ -1,0 +1,5 @@
+- The CryptoApp.py and the CryptoScraper.py packages require MongoDB Client to be installed.
+
+- Run the Final Project Code.ipynb notebook on Google Colab to prevent library compatibility and dependency issues
+
+
