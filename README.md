@@ -25,4 +25,5 @@ By leveraging text data scraping and machine learning techniques, this project a
 
 
 [INFO]: The **tweets.parquet** file is found here: https://drive.google.com/file/d/1tdtkIA3rR72lam0WwAGSgXefRcmgurtL/view?usp=drive_link
+
 [INFO]: The **tweets.csv** file is found here: https://drive.google.com/file/d/1NY8_t4jiVczB_XuVEVGOxFbKiCyRRdGQ/view?usp=drive_link
