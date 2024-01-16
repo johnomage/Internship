@@ -20,7 +20,9 @@ Key Steps:
 
 	7. Deployment and Monitoring: Deploy the trained models into a production environment where they can generate real-time price predictions. Implement monitoring mechanisms to track model performance, detect anomalies, and retrain/update the models as new data becomes available.
 
-By leveraging text data scraping and machine learning techniques, this project aims to enhance price prediction capabilities by incorporating valuable textual information from various sources. The resulting models can provide insights and support decision-making processes for traders, investors, and financial analysts.
+By leveraging text data scraping and machine learning techniques, this project aims to enhance price prediction capabilities by incorporating valuable textual information from various sources.
+
+**DICLAIMER: The resulting models *does not in any way provide insights to decision-making processes* for traders, investors, and financial analysts!**
 
 
 [INFO]: The **tweets.parquet** file is found here: https://drive.google.com/file/d/1tdtkIA3rR72lam0WwAGSgXefRcmgurtL/view?usp=drive_link
